@@ -35,36 +35,6 @@ const movieSchema = new mongoose.Schema({
 // Create a model from the schema
 const movieModel = mongoose.model('myMovies', movieSchema);
 
-// // Handle GET requests to fetch a list of movies
-// app.get('/api/movies', (req, res) => {
-//    const movies = [ 
-//         {
-//           "Title": "Avengers: Infinity War (server)",
-//           "Year": "2018",
-//           "imdbID": "tt4154756",
-//           "Type": "movie",
-//           "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-//         },
-//         {
-//           "Title": "Captain America: Civil War (server)",
-//           "Year": "2016",
-//           "imdbID": "tt3498820",
-//           "Type": "movie",
-//           "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-//         },
-//         {
-//           "Title": "World War Z (server)",
-//           "Year": "2013",
-//           "imdbID": "tt0816711",
-//           "Type": "movie",
-//           "Poster": "https://m.media-amazon.com/images/M/MV5BNDQ4YzFmNzktMmM5ZC00MDZjLTk1OTktNDE2ODE4YjM2MjJjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
-//         }
-//      ];
-
-//    // Send back the sample movie data as a JSON response
-//    res.status(200).json({ movies });
-// });
-
 // Handle POST requests to add a new movie
 app.post('/api/movies', async (req, res) => {
     console.log("Movie added: " + req.body.title); 
@@ -89,6 +59,14 @@ app.get('/api/movie/:id', async (req, res) => {
 app.put('/api/movie/:id', async (req, res) => {
   let movie = await movieModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.send(movie);
+});
+
+app.delete('/api/movie/:id', async (req, res) => {
+  
+  console.log('Deleting movie with ID:', req.params.id);
+  const movie = await movieModel.findByIdAndDelete(req.params.id);
+  res.status(200).send({ message: "Movie deleted successfully", movie });
+  
 });
 
 // Handle GET requests to fetch a single movie by its ID
