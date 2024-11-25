@@ -51,23 +51,29 @@ app.get('/api/movies', async (req, res) => {
   res.json(movies); 
 });
 
+// Define a route to handle GET requests for a specific movie by its ID
 app.get('/api/movie/:id', async (req, res) => {
+  // Fetch the movie with the specified ID from the database
   let movie = await movieModel.findById({ _id: req.params.id });
   res.send(movie);
 });
 
+// Define a route to handle PUT requests to update a movie by its ID
 app.put('/api/movie/:id', async (req, res) => {
+  // Find the movie by its ID and update it with the data from the request body
   let movie = await movieModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.send(movie);
 });
 
+// Define a route to handle DELETE requests to remove a movie by its ID
 app.delete('/api/movie/:id', async (req, res) => {
-  
   console.log('Deleting movie with ID:', req.params.id);
   const movie = await movieModel.findByIdAndDelete(req.params.id);
+
+  // Respond with a success message and details of the deleted movie
   res.status(200).send({ message: "Movie deleted successfully", movie });
-  
 });
+
 
 // Handle GET requests to fetch a single movie by its ID
 app.get('/api/movie/:id', async (req, res) => {
